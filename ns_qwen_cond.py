@@ -1,14 +1,20 @@
 """Нода предобработки изображения для подачи в VL"""
 
+# pylint: disable=invalid-name
+# Контракт API ComfyUI на использование специальных методов
+# в UPPER CASE
+
 # import json
 import math
 
-# from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, LiteralString
 
 import comfy.utils
 import torch
 
-from strings.strings import text
+from strings.strings import text, prompts
+
+MAX_PIXELS = 4194304
 
 # Определяем категорию для всех Qwen нод
 QWEN_CATEGORY = "neuroseparatism"
@@ -18,7 +24,7 @@ class QwenProcessingParams:
     """Нода для создания параметров обработки изображений"""
 
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(s) -> dict[str, Any]:
         return {
             "required": {
                 "vl_target_size": (
@@ -41,7 +47,12 @@ class QwenProcessingParams:
                 ),  # Защита от дурака
                 "max_pixels": (
                     "INT",
-                    {"default": 4194304, "min": 131072, "max": 16777216, "step": 1024},
+                    {
+                        "default": MAX_PIXELS,
+                        "min": 131072,
+                        "max": 16777216,
+                        "step": 1024,
+                    },
                 ),  # 2048x2048 по умолчанию
             },
             "optional": {
@@ -65,7 +76,7 @@ class QwenProcessingParams:
         foolproof_protection,
         max_pixels,
         params_name="default",
-    ):
+    ) -> tuple[dict[str, Any], str]:
         params = {
             "name": params_name,
             "vl_target_size": vl_target_size,
@@ -92,7 +103,7 @@ class QwenMultiProcessingParams:
     """Нода для создания индивидуальных параметров для каждого изображения"""
 
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(s) -> dict[str, Any]:
         return {
             "required": {
                 "image1_params": ("QWEN_PARAMS",),
@@ -112,7 +123,7 @@ class QwenMultiProcessingParams:
 
     def combine_params(
         self, image1_params, image2_params=None, image3_params=None, image4_params=None
-    ):
+    ) -> tuple[dict[str, Any], str]:
         multi_params = {
             "image1": image1_params,
         }
@@ -137,7 +148,7 @@ class QwenMultiProcessingParams:
 
 class TextEncodeQwenImageEditAdvanced:
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(s) -> dict[str, dict[str, Any]]:
         return {
             "required": {
                 "clip": ("CLIP",),
@@ -174,7 +185,12 @@ class TextEncodeQwenImageEditAdvanced:
                 ),  # Защита от дурака
                 "global_max_pixels": (
                     "INT",
-                    {"default": 4194304, "min": 131072, "max": 16777216, "step": 1024},
+                    {
+                        "default": MAX_PIXELS,
+                        "min": 131072,
+                        "max": 16777216,
+                        "step": 1024,
+                    },
                 ),  # 2048x2048 по умолчанию
                 "system_prompt": (
                     "STRING",
@@ -208,9 +224,9 @@ class TextEncodeQwenImageEditAdvanced:
         global_resize_method="lanczos",
         global_raw_mode=False,
         global_foolproof_protection=False,
-        global_max_pixels=4194304,
+        global_max_pixels=MAX_PIXELS,
         system_prompt="",
-    ):
+    ) -> tuple[list | Any, Any, Any, LiteralString]:
 
         # Сохраняем оригинальные размеры первого изображения
         batch_size, height, width, channels = image1.shape
@@ -229,7 +245,7 @@ class TextEncodeQwenImageEditAdvanced:
         if not system_prompt:
             system_prompt = text.get("default_sysprompt")
 
-        llama_template = f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{{}}<|im_end|>\n<|im_start|>assistant\n"
+        llama_template = prompts.get("system")
 
         ref_latents = []
         images_vl = []
@@ -246,7 +262,7 @@ class TextEncodeQwenImageEditAdvanced:
                 img_raw_mode = params["raw_mode"]
                 img_resize_method = params["resize_method"]
                 img_foolproof_protection = params.get("foolproof_protection", False)
-                img_max_pixels = params.get("max_pixels", 4194304)
+                img_max_pixels = params.get("max_pixels", MAX_PIXELS)
                 params_source = "individual"
             else:
                 # Используем глобальные параметры
@@ -263,9 +279,7 @@ class TextEncodeQwenImageEditAdvanced:
             batch_size, height, width, channels = image.shape
             info_lines.append(f"\nImage {i+1} ({params_source} params):")
             info_lines.append(f"  Original: {width}x{height}")
-            info_lines.append(
-                f"  Params: VL={img_vl_size}, Latent={img_latent_size}, Crop={img_crop_method}, Raw={img_raw_mode}, Foolproof={img_foolproof_protection}"
-            )
+            info_lines.append(text.get("params_vl"))
 
             # 1. Обработка для VL (всегда масштабируем для избежания OOM)
             vl_info = self._process_image(
@@ -347,7 +361,7 @@ class TextEncodeQwenImageEditAdvanced:
         raw_mode,
         purpose="VL",
         foolproof_protection=False,
-        max_pixels=4194304,
+        max_pixels=MAX_PIXELS,
     ):
         """Универсальная обработка изображения"""
         batch_size, height, width, channels = image.shape
@@ -391,9 +405,7 @@ class TextEncodeQwenImageEditAdvanced:
                 info_lines.append(
                     f"Foolproof protection applied: {width}x{height} -> {new_width}x{new_height}"
                 )
-                info_lines.append(
-                    f"  Scale: {scale_factor:.4f}, Pixels: {current_pixels} -> {new_width*new_height}"
-                )
+                info_lines.append(text.get("scale_pixels"))
 
         if raw_mode and purpose == "VAE":
             # В raw_mode для VAE только приводим к кратности
