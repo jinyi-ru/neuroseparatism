@@ -1,17 +1,8 @@
 from .ns_qwen_cond import (
     TextEncodeQwenImageEditAdvanced,
     QwenProcessingParams,
-    QwenMultiProcessingParams
+    QwenMultiProcessingParams,
 )
-
-# Регистрация типов данных для ComfyUI
-class QwenParamsType:
-    """Кастомный тип данных для параметров Qwen"""
-    pass
-
-class QwenMultiParamsType:
-    """Кастомный тип данных для множественных параметров Qwen"""
-    pass
 
 # Маппинг типов для ComfyUI
 NODE_CLASS_MAPPINGS = {
@@ -26,8 +17,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "QwenMultiProcessingParams": "⚙️ Qwen Multi-Image Parameters",
 }
 
-# Регистрируем кастомные типы данных
-NODE_CLASS_MAPPINGS["QWEN_PARAMS"] = QwenParamsType
-NODE_CLASS_MAPPINGS["QWEN_MULTI_PARAMS"] = QwenMultiParamsType
+# НЕ РЕГИСТРИРУЕМ QWEN_PARAMS и QWEN_MULTI_PARAMS как ноды!
+# Это просто типы данных, они не должны быть в NODE_CLASS_MAPPINGS
 
-__all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
+__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
