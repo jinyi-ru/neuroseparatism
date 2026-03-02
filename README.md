@@ -26,15 +26,15 @@
 - [🔧 Как и зачем менять системный промпт?](#-как-и-зачем-менять-системный-промпт)
   - [Зачем менять?](#зачем-менять)
   - [Когда НЕ менять?](#когда-не-менять)
-- [📋 Примеры готовых промптов (копируй и используй)](#-примеры-готовых-промптов-копируй-и-используй)
-  - [Пример 1: Для эмоционального анализа и преобразования](#пример-1-для-эмоционального-анализа-и-преобразования)
-  - [Что изменится:](#что-изменится)
-  - [Пример 2: Для технического анализа и точных изменений](#пример-2-для-технического-анализа-и-точных-изменений)
-  - [Что изменится:](#что-изменится-1)
-  - [Пример 3: Для креативных и экспериментальных преобразований](#пример-3-для-креативных-и-экспериментальных-преобразований)
-  - [Что изменится:](#что-изменится-2)
-- [💡 Как создавать свои системные промпты](#-как-создавать-свои-системные-промпты)
-  - [Пример разбора стандартного промпта:](#пример-разбора-стандартного-промпта)
+  - [📋 Примеры готовых промптов (копируй и используй)](#-примеры-готовых-промптов-копируй-и-используй)
+    - [Пример 1: Для эмоционального анализа и преобразования](#пример-1-для-эмоционального-анализа-и-преобразования)
+      - [Что изменится:](#что-изменится)
+    - [Пример 2: Для технического анализа и точных изменений](#пример-2-для-технического-анализа-и-точных-изменений)
+      - [Что изменится:](#что-изменится-1)
+    - [Пример 3: Для креативных и экспериментальных преобразований](#пример-3-для-креативных-и-экспериментальных-преобразований)
+      - [Что изменится:](#что-изменится-2)
+  - [💡 Как создавать свои системные промпты](#-как-создавать-свои-системные-промпты)
+    - [Пример разбора стандартного промпта:](#пример-разбора-стандартного-промпта)
 - [🎯 Шпаргалка по эффектам](#-шпаргалка-по-эффектам)
   - [Хотите больше креатива?](#хотите-больше-креатива)
   - [Хотите больше точности?](#хотите-больше-точности)
@@ -46,9 +46,9 @@
 
 ## Установка
 
-1. Поместите папку `neuroseparatism` в папку `custom_nodes` вашего ComfyUI
-2. Перезапустите ComfyUI
-3. В меню узлов появится категория **neuroseparatism**
+1. Поместите папку `neuroseparatism` в папку `custom_nodes` вашего **ComfyUI**
+2. Перезапустите **ComfyUI**
+3. В меню нод (nodes) появится категория **neuroseparatism**
 
 ## Доступные узлы
 
@@ -129,7 +129,9 @@
 5. Подключите выход к Sampler
 
 ## Системный промпт по умолчанию
-Describe the key features of the input image (color, shape, size, texture, objects, background), then explain how the user's text instruction should alter or modify the image. Generate a new image that meets the user's requirements while maintaining consistency with the original input where appropriate.
+
+> Describe the key features of the input image (color, shape, size, texture, objects, background), then explain how the user's text instruction should alter or modify the image. Generate a new image that meets the user's requirements while maintaining consistency with the original input where appropriate.
+
 
 Вы можете изменить системный промпт для изменения поведения модели.
 
@@ -204,61 +206,72 @@ Describe the key features of the input image (color, shape, size, texture, objec
 - При работе с новыми типами запросов (сначала тестируйте стандартный)
 - Если не уверены в эффекте
 
-## 📋 Примеры готовых промптов (копируй и используй)
+### 📋 Примеры готовых промптов (копируй и используй)
+<details>
 
-### Пример 1: Для эмоционального анализа и преобразования
-First, analyze the emotional tone, mood, and atmosphere of the input image. Describe how colors, lighting, and composition contribute to the feeling. 
-Then, explain how the user's instruction will transform these emotional elements. Focus on conveying feelings and moods through visual changes. 
-Generate an image that not only follows the instructions but also powerfully communicates the intended emotional impact.
+#### Пример 1: Для эмоционального анализа и преобразования
+> First, analyze the emotional tone, mood, and atmosphere of the input image. Describe how colors, lighting, and composition contribute to the feeling. 
+> Then, explain how the user's instruction will transform these emotional elements. Focus on conveying feelings and moods through visual changes. 
+> Generate an image that not only follows the instructions but also powerfully communicates the intended emotional impact.
 
-### Что изменится:
+
+##### Что изменится:
 - Модель будет больше внимания уделять эмоциям и настроению
 - Инструкции будут про чувства, а не только про объект
 - Результат будет более "атмосферным"
 
-### Пример 2: Для технического анализа и точных изменений
-Analyze the input image with technical precision: identify resolution, aspect ratio, color profiles, lighting conditions, and compositional rules used. 
-Provide a structured technical breakdown. Then, explain how the user's instruction will affect these technical parameters. 
-Focus on measurable changes and precise modifications. Generate an image that implements the instruction with technical accuracy.
+#### Пример 2: Для технического анализа и точных изменений
+> Analyze the input image with technical precision: identify resolution, aspect ratio, color profiles, lighting conditions, and compositional rules used. 
+> Provide a structured technical breakdown. Then, explain how the user's instruction will affect these technical parameters. 
+> Focus on measurable changes and precise modifications. Generate an image that implements the instruction with technical accuracy.
 
-### Что изменится:
+##### Что изменится:
 - Модель будет уделять больше внимания о разрешению, соотношению сторон, цветовым профилям
 - Инструкции будут более структурированными и техническими
 - Изменения будут более точными и предсказуемыми
 
-### Пример 3: Для креативных и экспериментальных преобразований
-Look at the input image with an artist's eye. Identify unique visual elements, interesting compositions, and creative potential. 
-Interpret the user's instruction as a creative challenge, not just a technical task. Suggest unexpected but coherent transformations. 
-Don't be afraid to break conventions if it serves the creative vision. Generate an image that surprises and inspires.
+#### Пример 3: Для креативных и экспериментальных преобразований
+> Look at the input image with an artist's eye. Identify unique visual elements, interesting compositions, and creative potential. 
+> Interpret the user's instruction as a creative challenge, not just a technical task. Suggest unexpected but coherent transformations. 
+> Don't be afraid to break conventions if it serves the creative vision. Generate an image that surprises and inspires.
 
-### Что изменится:
+##### Что изменится:
 - Модель будет предлагать более смелые и неожиданные решения
 - Будет искать "творческий потенциал" в своих решениях
 - Может нарушать правила, если это улучшит результат
+</details>
 
-## 💡 Как создавать свои системные промпты
-- Структура хорошего системного промпта: [Роль / подход] + [Что анализировать в первую очередь] + [Как обрабатывать инструкцию] + [Критерии результата]
+### 💡 Как создавать свои системные промпты
+- Структура хорошего системного промпта: `[Роль / подход]` + `[Что анализировать в первую очередь]` + `[Как обрабатывать инструкцию]` + `[Критерии результата]`
 
-### Пример разбора стандартного промпта:
-- Describe the key features       ← ЧТО анализировать
-- then explain how                ← КАК обрабатывать инструкцию  
-- Generate a new image that meets ← КРИТЕРИИ результата
-- maintaining consistency         ← ОГРАНИЧЕНИЯ/правила
+#### Пример разбора стандартного промпта:
+- **Describe the key features**       ← ЧТО анализировать
+- **then explain how**                ← КАК обрабатывать инструкцию  
+- **Generate a new image that meets** ← КРИТЕРИИ результата
+- **maintaining consistency**         ← ОГРАНИЧЕНИЯ/правила
 
 ## 🎯 Шпаргалка по эффектам
+<details> 
+
 ### Хотите больше креатива?
-Think outside the box. Prioritize artistic vision over literal interpretation.
+> Think outside the box. Prioritize artistic vision over literal interpretation.
 
 ### Хотите больше точности?
-Be precise and literal. Follow the instruction exactly without adding creative flourishes.
+> Be precise and literal. Follow the instruction exactly without adding creative flourishes.
 
 ### Хотите сохранить оригинал?
-Preserve the original character and essence. Make minimal but effective changes.
+> Preserve the original character and essence. Make minimal but effective changes.
 
 ### Хотите радикальных изменений?
-Don't be afraid to completely transform. The result should be dramatically different but coherent.
+> Don't be afraid to completely transform. The result should be dramatically different but coherent.
 
-**Помните: Системный промпт - это не "что сделать", а "как думать"! 🧠**
+<font color=red>
+<b>
+Помните: Системный промпт - это не "что сделать", а "как думать"! 🧠
+</b>
+</font>
+
+</details>
 
 ## ⚠️ Важные замечания
 - Длина имеет значение - слишком длинный промпт может "потеряться"
